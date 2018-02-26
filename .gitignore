@@ -4,3 +4,5 @@ ResKit/UnityPackageManager
 ResKit.sln
 Library
 Temp
+.idea
+Assets/Plugins/Editor/JetBrains
