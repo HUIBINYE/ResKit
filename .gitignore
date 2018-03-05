@@ -6,3 +6,5 @@ Library
 Temp
 .idea
 Assets/Plugins/Editor/JetBrains
+Assembly-CSharp-Editor-firstpass.csproj
+Assembly-CSharp.csproj

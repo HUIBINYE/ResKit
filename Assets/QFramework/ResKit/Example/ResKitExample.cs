@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResKitExample : MonoBehaviour {
-
+public class ResKitExample : MonoBehaviour 
+{
 	// Use this for initialization
 	void Start () {
 		
