@@ -91,48 +91,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &744058229
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4665075752819732, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4665075752819732, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4665075752819732, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4665075752819732, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4665075752819732, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4665075752819732, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4665075752819732, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4665075752819732, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: df83f6d02c38d4778b5be6ab87228b57, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1085197767
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +187,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1189410492}
   - component: {fileID: 1189410491}
+  - component: {fileID: 1189410493}
+  - component: {fileID: 1189410494}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -260,6 +220,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1189410493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1189410490}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9286dec1915ad4146b37d8225235c214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BundleURL: file:///Users/huibin/Unity Project/ResKit/Assets/StreamingAssets/cube.assetbundle
+  AssetName: Cube
+--- !u!114 &1189410494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1189410490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b0264f5fa254bf5869efb0c7ea1731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BundleURL: file:///Users/huibin/Unity Project/ResKit/Assets/StreamingAssets/cube.assetbundle
+  AssetName: Cube
+  version: 0
 --- !u!1 &1824332127
 GameObject:
   m_ObjectHideFlags: 0

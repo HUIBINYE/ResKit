@@ -20,6 +20,6 @@ public class BuildAssetBundles
 			Directory.CreateDirectory(assetBundleDirectory);
 		}
 
-		BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.None, BuildTarget.StandaloneOSXIntel);
+		BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.None, BuildTarget.iOS);
 	}
 }
