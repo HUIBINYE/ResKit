@@ -63,6 +63,7 @@ public static class PathUtil
                 return "iOS";
             case RuntimePlatform.WindowsPlayer:
             case RuntimePlatform.OSXPlayer:
+            case RuntimePlatform.OSXEditor:
                 return "file:///" + GetAssetBundleOutPath();
             // Add more build platform for your own.
             // If you add more platforms, don't forget to add the same targets to GetPlatformFolderForAssetBundles(BuildTarget) function.

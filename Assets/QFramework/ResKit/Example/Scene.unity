@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 1189410491}
   - component: {fileID: 1189410493}
   - component: {fileID: 1189410494}
+  - component: {fileID: 1189410495}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -239,7 +240,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1189410490}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55b0264f5fa254bf5869efb0c7ea1731, type: 3}
   m_Name: 
@@ -247,6 +248,17 @@ MonoBehaviour:
   BundleURL: file:///Users/huibin/Unity Project/ResKit/Assets/StreamingAssets/cube.assetbundle
   AssetName: Cube
   version: 0
+--- !u!114 &1189410495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1189410490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613208fff447549f1940d882ee63af88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1824332127
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +357,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1882289633}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 029ec20c828ee4075a752c172a03e2bc, type: 3}
   m_Name: 

@@ -1,0 +1,13 @@
+ManifestFileVersion: 0
+CRC: 1072040118
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: cube.assetbundle
+      Dependencies: {}
+    Info_1:
+      Name: scene1/buildings.assetbundle
+      Dependencies: {}
+    Info_2:
+      Name: scene1/levels.assetbundle
+      Dependencies: {}

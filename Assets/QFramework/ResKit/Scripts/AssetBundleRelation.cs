@@ -15,6 +15,11 @@ public class AssetBundleRelation
 
     private string mBundleName;
 
+    public string BundleName
+    {
+        get { return mBundleName; }
+    }
+
     private LoadComplete mLoadComplete;
 
     private LoadProgress mLoadProgress;
@@ -93,7 +98,6 @@ public class AssetBundleRelation
             else
             {
                 //shifang
-                Dispose();
                 return true;
             }
         }

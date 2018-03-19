@@ -42,6 +42,7 @@ public class AssetBundleManifestLoader
     private AssetBundleManifestLoader()
     {
         mMnifestPath = PathUtil.GetWWWPath() + "/" +PathUtil.GetPlatformName();
+        Debug.Log("mMnifestPath"+mMnifestPath);
         mManifest = null;
         mAssetBundle = null;
         mFinish = false;

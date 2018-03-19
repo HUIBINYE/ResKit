@@ -4,7 +4,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Networking;
 
 /// <summary>
 /// 控制一个场景里所有的资源包
@@ -21,6 +23,22 @@ public class OneSceneAssetBundles
     {
         mSceneName = sceneName;
         mNameBundleDict = new Dictionary<string, AssetBundleRelation>();
+        mNameChacheDict = new Dictionary<string, AssetCaching>();
+    }
+
+    public bool IsLoading(string bundleName)
+    {
+        return mNameBundleDict.ContainsKey(bundleName);
+    }
+
+    public bool IsFinish(string bundleName)
+    {
+        if (IsLoading(bundleName))
+        {
+            return mNameBundleDict[bundleName].Finish;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -172,24 +190,86 @@ public class OneSceneAssetBundles
         return asset;
     }
 
-    public void UnLoadAsset(string bundleName,Object asset)
+    /// <summary>
+    /// 卸载资源
+    /// </summary>
+    /// <param name="bundleName"></param>
+    /// <param name="asset"></param>
+    public void UnLoadAsset(string bundleName,string assetName)
     {
-        if (!mNameBundleDict.ContainsKey(bundleName) )
+        if (!mNameChacheDict.ContainsKey(bundleName) )
         {
-            Debug.LogError("当前mAssetBundleLoader为空");
+            Debug.LogError("没有加载"+bundleName + "没有缓存资源，无法卸载");
             return;
         }
-        mNameBundleDict[bundleName].UnLoadAsset(asset);
+        mNameChacheDict[bundleName].UnLoadAsset(assetName);
+
+        Resources.UnloadUnusedAssets();
     }
-    
+
+    public void UnLoadAllAsset(string bundleName)
+    {
+        if (!mNameChacheDict.ContainsKey(bundleName) )
+        {
+            Debug.LogError("没有加载"+bundleName + "没有缓存资源，无法卸载");
+            return;
+        }
+        mNameChacheDict[bundleName].UnLoadAllAsset();
+        mNameChacheDict.Remove(bundleName);
+        Resources.UnloadUnusedAssets();
+    }
+
+    public void UnLoadAll()
+    {
+        foreach (var item in mNameChacheDict.Keys)
+        {
+            UnLoadAllAsset(item);
+        }
+        mNameChacheDict.Clear();
+    }
+
     public void Dispose(string bundleName)
     {
         if (!mNameBundleDict.ContainsKey(bundleName))
         {
+            Debug.LogError("没有加载"+bundleName + "无法加载");
             return;
         }
+
+        AssetBundleRelation assetBundleRelation = mNameBundleDict[bundleName];
+
+        string[] allDependences = assetBundleRelation.GetAllDependence();
+
+        foreach (var dependenceBundleName in allDependences)
+        {
+            AssetBundleRelation tempAssetBundleRelation = mNameBundleDict[bundleName];
+            bool resualt = tempAssetBundleRelation.RemoveReferenceBundle(bundleName);
+
+            if (resualt)
+            {
+                //递归
+                Dispose(tempAssetBundleRelation.BundleName);
+            }
+        }
+        //TODO:有错误
+//        if(assetBundleRelation)
         mNameBundleDict[bundleName].Dispose();
         mNameBundleDict[bundleName] = null;
+    }
+
+    public void DisposeAll()
+    {
+        foreach (var item in mNameBundleDict.Keys)
+        {
+            Dispose(item);
+        }
+        mNameBundleDict.Clear();
+    }
+
+    public void DisposeAllAndUnLoadAll()
+    {
+        UnLoadAll();
+        DisposeAll();
     }
 
     public void GetAllAssetNames(string bundleName)

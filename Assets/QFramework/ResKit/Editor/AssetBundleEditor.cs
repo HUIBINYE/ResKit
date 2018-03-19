@@ -38,9 +38,9 @@ public class AssetBundleEditor
 
 	public static void OnWriteConfig(string sceneName,Dictionary<string,string> namePathDict)
 	{
-		string path = PathUtil.GetAssetBundleOutPath() + sceneName + "/Record.config";
+		string path = PathUtil.GetAssetBundleOutPath() + sceneName + "Record.config";
 
-		if (!Directory.Exists(PathUtil.GetAssetBundleOutPath() + sceneName))
+		if (!Directory.Exists(PathUtil.GetAssetBundleOutPath()))
 		{
 			Directory.CreateDirectory(PathUtil.GetAssetBundleOutPath() + sceneName);
 		}
