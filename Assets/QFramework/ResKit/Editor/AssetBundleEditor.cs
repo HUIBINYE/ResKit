@@ -25,19 +25,11 @@ public class AssetBundleEditor
 		{
 			string sceneDirectory = assetDirectory + "/" + itemInfo.Name;
 			DirectoryInfo sceneDirectoryInfo = new DirectoryInfo(sceneDirectory);
-			if (sceneDirectoryInfo == null)
-			{
-				Debug.LogError("sceneDirectory" + "not exit!");
-				return;
-			}
-			else
 			{
 				Dictionary<string,string> namePathDic = new Dictionary<string, string>();
 				int index = sceneDirectory.LastIndexOf("/");
 				string sceneName = sceneDirectory.Substring(index + 1);
-//				Debug.LogError("DirInfo:"+sceneDirectoryInfo);
-//				Debug.LogError("SceneName:"+sceneName);
-				OnSceneFileSystemInfo(sceneDirectoryInfo,sceneName);
+				OnSceneFileSystemInfo(sceneDirectoryInfo,sceneName,namePathDic);
 				OnWriteConfig(sceneName,namePathDic);
 			}
 		}
@@ -46,8 +38,13 @@ public class AssetBundleEditor
 
 	public static void OnWriteConfig(string sceneName,Dictionary<string,string> namePathDict)
 	{
-		string path = Application.dataPath + "/AssetBundle/" + sceneName + "Record.config";
-		Debug.Log(path);
+		string path = PathUtil.GetAssetBundleOutPath() + sceneName + "/Record.config";
+
+		if (!Directory.Exists(PathUtil.GetAssetBundleOutPath() + sceneName))
+		{
+			Directory.CreateDirectory(PathUtil.GetAssetBundleOutPath() + sceneName);
+		}
+
 		using (FileStream fs = new FileStream(path,FileMode.OpenOrCreate,FileAccess.Write))
 		{
 			using (StreamWriter sw = new StreamWriter(fs))
@@ -55,13 +52,13 @@ public class AssetBundleEditor
 				sw.WriteLine(namePathDict.Count);
 				foreach (var kv in namePathDict)
 				{
-					sw.Write(kv.Key + "-"+kv.Value);
+					sw.WriteLine(kv.Key + " "+ kv.Value);
 				}
 			}
 		}
 	}
 
-	public static void OnSceneFileSystemInfo(FileSystemInfo info, string sceneName)
+	public static void OnSceneFileSystemInfo(FileSystemInfo info, string sceneName,Dictionary<string,string> namePathDic)
 	{
 		if (!info.Exists)
 		{
@@ -75,16 +72,16 @@ public class AssetBundleEditor
 			FileInfo fileInfo = itemInfo as FileInfo;
 			if (fileInfo == null)
 			{
-				OnSceneFileSystemInfo(itemInfo,sceneName);
+				OnSceneFileSystemInfo(itemInfo,sceneName,namePathDic);
 			}
 			else
 			{
-				SetLables(fileInfo,sceneName);
+				SetLables(fileInfo,sceneName,namePathDic);
 			}
 		}
 	}
 
-	public static void SetLables(FileInfo fileInfo,string sceneName)
+	public static void SetLables(FileInfo fileInfo, string sceneName, Dictionary<string, string> namePathDict)
 	{
 		if (fileInfo.Extension == ".meta")
 		{
@@ -105,7 +102,22 @@ public class AssetBundleEditor
 			assetImporter.assetBundleVariant = "assetbundle";
 		}
 
-//		Debug.LogError("bundleName"+bundleName);
+		string folderName = "";
+		
+		if (bundleName.Contains("/"))
+		{
+			folderName = bundleName.Split('/')[1];
+		}
+		else
+		{
+			folderName = bundleName;
+		}
+
+		string bundlePath = assetImporter.assetBundleName + "." + assetImporter.assetBundleVariant;
+		if (!namePathDict.ContainsKey(folderName))
+		{
+			namePathDict.Add(folderName, bundlePath);
+		}
 	}
 
 	public static string GetBundleName(FileInfo fileInfo, string sceneName)
@@ -119,9 +131,26 @@ public class AssetBundleEditor
 			string[] temp = bundlePath.Split('/');
 			return sceneName + "/" + temp[0];
 		}
-		else
+		return sceneName;
+	}
+	
+	[MenuItem("AssetBundle/Build AssetBundles")]
+	static void BuildAllAssetBundles()
+	{
+		string assetBundleDirectory = PathUtil.GetAssetBundleOutPath();
+		if (!Directory.Exists(assetBundleDirectory))
 		{
-			return sceneName;
+			Directory.CreateDirectory(assetBundleDirectory);
 		}
+
+		BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.None, BuildTarget.iOS);
+	}
+
+	[MenuItem("AssetBundle/Delete All AssetBundles")]
+	static void DeleteAssetBundle()
+	{
+		string outPath = PathUtil.GetAssetBundleOutPath();
+		Directory.Delete(outPath,true);
+		AssetDatabase.Refresh();
 	}
 }
