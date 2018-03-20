@@ -24,24 +24,39 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-namespace QFramework.ResKit.Example
+namespace QFramework.ResKit
 {
+	using System.Collections;
 	using UnityEngine;
 
-	public class ResKitExample : MonoBehaviour
+	public class NoCachingLoadExample : MonoBehaviour
 	{
-		private void Start()
-		{
-			AssetBundleManager.Instance.LoadAssetBundle("Scene1", "Buildings", OnLoadProgress);
-		}
+		public string BundleURL;
 
-		private void OnLoadProgress(string bundleName, float progress)
-		{
-			Debug.LogError(progress + ":" + bundleName);
+		public string AssetName;
 
-			if (progress >= 1)
+		private IEnumerator Start()
+		{
+			using (WWW www = new WWW(BundleURL))
 			{
-				Instantiate(AssetBundleManager.Instance.LoadAsset("Scene1", "Buildings", "Sphere"));
+				yield return www;
+				if (www.error != null)
+				{
+					Debug.LogError("WWW download had an error:" + www.error);
+				}
+
+				AssetBundle bundle = www.assetBundle;
+
+				if (string.IsNullOrEmpty(AssetName))
+				{
+					Instantiate(bundle.mainAsset);
+				}
+				else
+				{
+					Instantiate(bundle.LoadAsset(AssetName));
+				}
+
+				bundle.Unload(false);
 			}
 		}
 	}

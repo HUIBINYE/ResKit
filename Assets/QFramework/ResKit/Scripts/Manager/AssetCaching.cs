@@ -29,27 +29,64 @@ namespace QFramework.ResKit
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class TempObject
+    /// <summary>
+    /// 资源缓存
+    /// </summary>
+    public class AssetCaching
     {
-        private readonly List<Object> mAssets;
+        /// <summary>
+        /// 已经加载过的资源名字和资源的映射关系
+        /// </summary>
+        private Dictionary<string, TempObject> mNameAssetDict;
 
-        public List<Object> Asset
+        public AssetCaching()
         {
-            get { return mAssets; }
+            mNameAssetDict = new Dictionary<string, TempObject>();
         }
 
-        public TempObject(params Object[] objects)
+        public void AddAsset(string assetName, TempObject asset)
         {
-            mAssets = new List<Object>();
-            mAssets.AddRange(objects);
-        }
-
-        public void UnLoadAsset()
-        {
-            for (var i = mAssets.Count - 1; i >= 0; i--)
+            if (!mNameAssetDict.ContainsKey(assetName))
             {
-                Resources.UnloadAsset(mAssets[i]);
+                mNameAssetDict.Add(assetName, asset);
             }
+            else
+            {
+                Debug.LogError("已经加载过了:" + assetName);
+            }
+        }
+
+        public Object[] GetAsset(string assetName)
+        {
+            if (mNameAssetDict.ContainsKey(assetName))
+            {
+                return mNameAssetDict[assetName].Asset.ToArray();
+            }
+
+            Debug.LogError("尚未加载:" + assetName);
+            return null;
+        }
+
+        public void UnLoadAsset(string assetName)
+        {
+            if (mNameAssetDict.ContainsKey(assetName))
+            {
+                mNameAssetDict[assetName].UnLoadAsset();
+            }
+            else
+            {
+                Debug.LogError("尚未加载:" + assetName);
+            }
+        }
+
+        public void UnLoadAllAsset()
+        {
+            foreach (var item in mNameAssetDict.Keys)
+            {
+                UnLoadAsset(item);
+            }
+
+            mNameAssetDict.Clear();
         }
     }
 }

@@ -24,24 +24,52 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-namespace QFramework.ResKit.Example
-{
-	using UnityEngine;
+using System.Collections;
+using UnityEngine;
 
-	public class ResKitExample : MonoBehaviour
+namespace QFramework.ResKit
+{
+	public class CachingLoadExample : MonoBehaviour
 	{
+		public string BundleURL;
+
+		public string AssetName;
+
+		public int Version;
+
+		// Use this for initialization
 		private void Start()
 		{
-			AssetBundleManager.Instance.LoadAssetBundle("Scene1", "Buildings", OnLoadProgress);
+			StartCoroutine(DownloadAndCache());
 		}
 
-		private void OnLoadProgress(string bundleName, float progress)
+		private IEnumerator DownloadAndCache()
 		{
-			Debug.LogError(progress + ":" + bundleName);
-
-			if (progress >= 1)
+			while (!Caching.ready)
 			{
-				Instantiate(AssetBundleManager.Instance.LoadAsset("Scene1", "Buildings", "Sphere"));
+				yield return null;
+			}
+
+			using (WWW www = WWW.LoadFromCacheOrDownload(BundleURL, Version))
+			{
+				yield return www;
+				if (www.error != null)
+				{
+					Debug.LogError("www download had an error" + www.error);
+				}
+
+				AssetBundle bundle = www.assetBundle;
+
+				if (string.IsNullOrEmpty(AssetName))
+				{
+					Instantiate(bundle.mainAsset);
+				}
+				else
+				{
+					Instantiate(bundle.LoadAsset(AssetName));
+				}
+
+				bundle.Unload(false);
 			}
 		}
 	}
