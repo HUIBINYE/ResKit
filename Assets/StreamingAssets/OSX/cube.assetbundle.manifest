@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1129431426
+CRC: 3223280566
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f576a4db7b6d6e653e62e67b15630274
+    Hash: bddc414ee9a3968b77154be96226e82d
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4d90e579baa648a406b7df4d756b75b6
@@ -26,5 +26,5 @@ ClassTypes:
 - Class: 65
   Script: {instanceID: 0}
 Assets:
-- Assets/QFramework/ResKit/Prefabs/Cube.prefab
+- Assets/QFramework/2.ResKit/ResSystem/Prefabs/Cube.prefab
 Dependencies: []
