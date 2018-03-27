@@ -178,12 +178,6 @@ namespace QFramework.ResKit
 
         public Object[] LoadAssetWithSubAssets(string bundleName, string assetName)
         {
-//        if (!mNameBundleDict.ContainsKey(bundleName))
-//        {
-//            Debug.LogError("当前"+bundleName+"没有加载,无法获取");
-//            return null;
-//        }
-//        return mNameBundleDict[bundleName].LoadAssetWithSubAssets(assetName);
             if (mNameChacheDict.ContainsKey(bundleName))
             {
                 Object[] assets = mNameChacheDict[bundleName].GetAsset(assetName);
@@ -191,7 +185,6 @@ namespace QFramework.ResKit
                 {
                     return assets;
                 }
-
             }
 
             if (!mNameBundleDict.ContainsKey(bundleName))

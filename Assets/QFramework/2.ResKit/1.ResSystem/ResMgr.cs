@@ -40,14 +40,12 @@ namespace QFramework
         private List<IRes> mResList = new List<IRes>();
         [SerializeField] private int mCurrentCoroutineCount = 0;
         private int mMaxCoroutineCount = 8; //最快协成大概在6到8之间
-        //private TimeDebugger mTimeDebugger;
+
         private LinkedList<IEnumeratorTask> mIEnumeratorTaskStack = new LinkedList<IEnumeratorTask>();
 
         private bool mIsWorking = true;
-
         //Res 在ResMgr中 删除的问题，ResMgr定时收集列表中的Res然后删除
-        private bool mIsResMapDirty = false;
-
+        private bool mIsResMapDirty;
         #endregion
 
         public static void Init()
@@ -61,10 +59,10 @@ namespace QFramework
             AssetDataTable.Instance.Reset();
             List<string> outResult = new List<string>();
             FileMgr.Instance.GetFileInInner("asset_bindle_config.bin", outResult);
-            for (int i = 0; i < outResult.Count; ++i)
+            foreach (var t in outResult)
             {
-                Log.I("Init[ResMgr]: {0}",outResult[i]);
-                AssetDataTable.Instance.LoadFromFile(outResult[i]);
+                Log.I("Init[ResMgr]: {0}",t);
+                AssetDataTable.Instance.LoadFromFile(t);
             }
             
             AssetDataTable.Instance.SwitchLanguage("cn");
@@ -91,7 +89,7 @@ namespace QFramework
 
         public IRes GetRes(string ownerBundleName, string assetName, bool createNew = false)
         {
-            IRes res = null;
+            IRes res;
 
             if (mResDictionary.TryGetValue((ownerBundleName + assetName).ToLower(), out res))
             {
@@ -146,7 +144,7 @@ namespace QFramework
 
         public R GetRes<R>(string assetName) where R : IRes
         {
-            IRes res = null;
+            IRes res;
             if (mResDictionary.TryGetValue(assetName, out res))
             {
                 return (R) res;
@@ -155,9 +153,9 @@ namespace QFramework
             return default(R);
         }
 
-        public R GetAsset<R>(string name) where R : UnityEngine.Object
+        public R GetAsset<R>(string name) where R : Object
         {
-            IRes res = null;
+            IRes res;
             if (mResDictionary.TryGetValue(name, out res))
             {
                 return res.Asset as R;
@@ -190,8 +188,8 @@ namespace QFramework
 
             mIsResMapDirty = false;
 
-            IRes res = null;
-            for (int i = mResList.Count - 1; i >= 0; --i)
+            IRes res;
+            for (var i = mResList.Count - 1; i >= 0; --i)
             {
                 res = mResList[i];
                 if (res.RefCount <= 0 && res.State != ResState.Loading)

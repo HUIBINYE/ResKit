@@ -256,13 +256,13 @@ namespace QFramework
 
         public bool IsDependResLoadFinish()
         {
-            string[] depends = GetDependResList();
+            var depends = GetDependResList();
             if (depends == null || depends.Length == 0)
             {
                 return true;
             }
 
-            for (int i = depends.Length - 1; i >= 0; --i)
+            for (var i = depends.Length - 1; i >= 0; --i)
             {
                 var res = ResMgr.Instance.GetRes(depends[i], false);
                 if (res == null || res.State != ResState.Ready)

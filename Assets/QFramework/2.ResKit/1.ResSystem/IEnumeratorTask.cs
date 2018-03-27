@@ -28,7 +28,6 @@
 
 namespace QFramework
 {
-    using System;
     using System.Collections;
     
     public interface IEnumeratorTask

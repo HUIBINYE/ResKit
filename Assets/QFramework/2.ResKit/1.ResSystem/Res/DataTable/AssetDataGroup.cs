@@ -18,14 +18,14 @@ namespace QFramework
 
             public ABUnit(string name, string[] depends)
             {
-                this.abName = name;
+                abName = name;
                 if (depends == null || depends.Length == 0)
                 {
 
                 }
                 else
                 {
-                    this.abDepends = depends;
+                    abDepends = depends;
                 }
             }
 

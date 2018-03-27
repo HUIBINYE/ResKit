@@ -91,13 +91,9 @@ namespace QFramework
 
             State = ResState.Loading;
 
-            //TimeDebugger timer = ResMgr.Instance.timeDebugger;
+			var url = ResKitConfig.AssetBundleName2Url(mAssetName);
 
-			string url = ResKitConfig.AssetBundleName2Url(mAssetName);
-
-            //timer.Begin("LoadSync AssetBundle:" + mName);
             AssetBundle bundle = AssetBundle.LoadFromFile(url);
-            //timer.End();
 
             mUnloadFlag = true;
 
@@ -111,9 +107,6 @@ namespace QFramework
             assetBundle = bundle;
             State = ResState.Ready;
 
-            //Log.I(string.Format("Load AssetBundle Success.ID:{0}, Name:{1}", bundle.GetInstanceID(), bundle.name));
-
-            //timer.Dump(-1);
             return true;
         }
 
